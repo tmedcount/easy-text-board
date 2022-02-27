@@ -13,6 +13,21 @@ public class Main {
 			
 			if(command.equals("article add")) {
 				System.out.println("== 게시물 등록 ==");
+				
+				int id = 1;
+				String title;
+				String body;
+				
+				System.out.print("제목 : ");
+				title = sc.nextLine();
+				System.out.print("내용 : ");
+				body = sc.nextLine();
+				
+				System.out.println("== 생성된 게시물 정보 ==");
+				System.out.printf("번호 : %d\n", id);
+				System.out.printf("제목 : %s\n", title);
+				System.out.printf("내용 : %s\n", body);
+				
 			} else if(command.equals("article list")) {
 				System.out.println("== 게시물 리스트 ==");
 			} else if(command.equals("system exit")) {
