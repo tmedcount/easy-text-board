@@ -7,6 +7,8 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
+		int lastArticleId = 0;
+		
 		while(true) {
 			System.out.print("명령어) ");
 			String command = sc.nextLine();
@@ -14,7 +16,7 @@ public class Main {
 			if(command.equals("article add")) {
 				System.out.println("== 게시물 등록 ==");
 				
-				int id = 1;
+				int id = lastArticleId + 1;
 				String title;
 				String body;
 				
@@ -27,6 +29,8 @@ public class Main {
 				System.out.printf("번호 : %d\n", id);
 				System.out.printf("제목 : %s\n", title);
 				System.out.printf("내용 : %s\n", body);
+				
+				lastArticleId = id;
 				
 			} else if(command.equals("article list")) {
 				System.out.println("== 게시물 리스트 ==");
