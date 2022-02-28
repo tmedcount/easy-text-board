@@ -3,15 +3,24 @@ package com.sbs.example.easytextboard;
 import java.util.Scanner;
 
 public class App {
-
+	
+	Article article1 = new Article();
+	Article article2 = new Article();
+	
+	public Article getArticle(int id) {
+		if(id == 1) {
+			return article1;
+		} else if (id == 2) {
+			return article2;
+		}
+		
+		return null;
+	}
+	
 	public void run() {
 		Scanner sc = new Scanner(System.in);
 		
 		int lastArticleId = 0;
-		
-		Article article1 = new Article();
-		
-		Article article2 = new Article();
 
 		while(true) {
 			System.out.print("명령어) ");
@@ -71,31 +80,22 @@ public class App {
 				
 				System.out.println("== 게시물 상세 ==");
 				
-				if(inputedId == 1) {
-					if(article1.id == 0) {
-						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
-						continue;
-					}
-					
-					System.out.printf("번호 : %d\n", article1.id);
-					System.out.printf("제목 : %s\n", article1.title);
-					System.out.printf("내용 : %s\n", article1.body);
-				} else if(inputedId == 2) {
-					if(article2.id == 0) {
-						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
-						continue;
-					}
-					
-					System.out.printf("번호 : %d\n", article2.id);
-					System.out.printf("제목 : %s\n", article2.title);
-					System.out.printf("내용 : %s\n", article2.body);
-				} else {
+				Article selectedArticle = getArticle(inputedId);
+				
+				if(selectedArticle == null || selectedArticle.id == 0) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
+					continue;
 				}
+				
+				System.out.printf("번호 : %d\n", selectedArticle.id);
+				System.out.printf("제목 : %s\n", selectedArticle.title);
+				System.out.printf("내용 : %s\n", selectedArticle.body);
+				
 			}
 		}
 		
 		sc.close();
+	
 		
 	}
 
