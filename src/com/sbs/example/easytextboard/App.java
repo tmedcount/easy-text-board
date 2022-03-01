@@ -3,27 +3,25 @@ package com.sbs.example.easytextboard;
 import java.util.Scanner;
 
 public class App {
-	
-	Article article1 = new Article();
-	Article article2 = new Article();
+	Article[] articles = new Article[3];
+	int lastArticleId = 0;
 	
 	public Article getArticle(int id) {
-		
-		if(id == 1) {
-			return article1;
-		} else if(id == 2) {
-			return article2;
+		if(id > lastArticleId || id<1) {
+			return null;
 		}
 		
-		return null;
+		return articles[id-1];
 	}
 
 	public void run() {
-	
+		for(int i=0; i<articles.length; i++) {
+			articles[i] = new Article();
+		}
+
 		Scanner sc = new Scanner(System.in);
 		
-		int maxArticleCount = 2;
-		int lastArticleId = 0;
+		int maxArticleCount = articles.length;
 		
 		while(true) {		
 			System.out.print("명령어) ");
@@ -41,6 +39,8 @@ public class App {
 				String title;
 				String body;
 				
+				lastArticleId = id;
+
 				System.out.print("제목 : ");
 				title = sc.nextLine();
 				System.out.print("내용 : ");
@@ -54,7 +54,6 @@ public class App {
 				
 				System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
 				
-				lastArticleId = id;
 				
 			} else if(command.equals("article list")) {
 				System.out.println("== 게시물 리스트 ==");
