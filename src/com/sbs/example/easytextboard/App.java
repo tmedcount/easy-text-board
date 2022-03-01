@@ -3,7 +3,7 @@ package com.sbs.example.easytextboard;
 import java.util.Scanner;
 
 public class App {
-	Article[] articles = new Article[3];
+	Article[] articles = new Article[100];
 	int lastArticleId = 0;
 	int articlesSize = 0;
 	
@@ -20,10 +20,6 @@ public class App {
 	}
 
 	public void run() {
-		for(int i=0; i<articles.length; i++) {
-			articles[i] = new Article();
-		}
-
 		Scanner sc = new Scanner(System.in);
 		
 		int maxArticleCount = articles.length;
@@ -51,13 +47,15 @@ public class App {
 				System.out.print("내용 : ");
 				body = sc.nextLine();	
 				
-				Article article = getArticle(id);
+				Article article = new Article();
 				
 				article.id = id;
 				article.title = title;
 				article.body = body;
 				
 				System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
+				
+				articles[articlesSize] = article;
 				
 				articlesSize++;
 			} else if(command.equals("article list")) {
