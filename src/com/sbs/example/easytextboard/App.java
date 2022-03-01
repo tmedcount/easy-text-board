@@ -3,9 +3,20 @@ package com.sbs.example.easytextboard;
 import java.util.Scanner;
 
 public class App {
-	private Article[] articles = new Article[2];
-	private int lastArticleId = 0;
-	private int articlesSize = 0;
+	private Article[] articles;
+	private int lastArticleId;
+	private int articlesSize;
+	
+	public void init() {
+		articles = new Article[32];
+		lastArticleId = 0;
+		articlesSize = 0;
+		
+		for(int i=0; i<32; i++) {
+			add("제목" + (i+1), "내용" + (i+1));
+		}
+		
+	}
 	
 	private int articlesSize() {
 		return articlesSize;
@@ -30,7 +41,7 @@ public class App {
 		
 		if(isArticlesFull()) {
 			System.out.printf("== 배열 사이즈 증가(%d -> %d) ==\n", articles.length, articles.length*2);
-			
+		
 			Article[] newArticles = new Article[articles.length * 2];
 			
 			for(int i=0; i<articles.length; i++) {
@@ -86,7 +97,7 @@ public class App {
 		return -1;
 	}
 	
-	public void run() {
+	public void run() {		
 		Scanner sc = new Scanner(System.in);
 				
 		while(true) {		
