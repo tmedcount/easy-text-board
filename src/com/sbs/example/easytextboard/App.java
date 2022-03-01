@@ -37,29 +37,18 @@ public class App {
 					System.out.println("더 이상 게시물을 생성할 수 없습니다.");
 					continue;
 				}
-			
-				int id = lastArticleId + 1;
+				
 				String title;
 				String body;
 				
-				lastArticleId = id;
-
 				System.out.print("제목 : ");
 				title = sc.nextLine();
 				System.out.print("내용 : ");
 				body = sc.nextLine();	
 				
-				Article article = new Article();
-				
-				article.id = id;
-				article.title = title;
-				article.body = body;
+				int id = add(title, body);
 				
 				System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
-				
-				articles[articlesSize] = article;
-				
-				articlesSize++;
 			} else if(command.equals("article list")) {
 				System.out.println("== 게시물 리스트 ==");
 				
@@ -117,6 +106,21 @@ public class App {
 		
 		sc.close();
 		
+	}
+
+	private int add(String title, String body) {
+		Article article = new Article();
+		
+		article.id = lastArticleId + 1;
+		article.title = title;
+		article.body = body;
+				
+		articles[articlesSize] = article;
+		
+		articlesSize++;
+		lastArticleId = article.id;
+		
+		return article.id;
 	}
 
 	private void remove(int id) {
