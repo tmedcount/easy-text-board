@@ -3,7 +3,7 @@ package com.sbs.example.easytextboard;
 import java.util.Scanner;
 
 public class App {
-	private Article[] articles = new Article[3];
+	private Article[] articles = new Article[2];
 	private int lastArticleId = 0;
 	private int articlesSize = 0;
 	
@@ -20,8 +20,26 @@ public class App {
 		
 		return articles[index];
 	}
+	
+	private boolean isArticlesFull() {
+		return articlesSize == articles.length;
+	}
 
 	private int add(String title, String body) {
+		//만약 현재 꽉 차 있다면 새 업체과 계약한다.
+		
+		if(isArticlesFull()) {
+			System.out.printf("== 배열 사이즈 증가(%d -> %d) ==\n", articles.length, articles.length*2);
+			
+			Article[] newArticles = new Article[articles.length * 2];
+			
+			for(int i=0; i<articles.length; i++) {
+				newArticles[i] = articles[i];
+			}
+			
+			articles = newArticles;
+		}
+		
 		Article article = new Article();
 		
 		article.id = lastArticleId + 1;
@@ -70,21 +88,14 @@ public class App {
 	
 	public void run() {
 		Scanner sc = new Scanner(System.in);
-		
-		int maxArticleCount = articles.length;
-		
+				
 		while(true) {		
 			System.out.print("명령어) ");
 			String command = sc.nextLine();
 			
 			if(command.equals("article add")) {
 				System.out.println("== 게시물 등록 ==");
-				
-				if(articlesSize() >= maxArticleCount) {
-					System.out.println("더 이상 게시물을 생성할 수 없습니다.");
-					continue;
-				}
-				
+								
 				String title;
 				String body;
 				
