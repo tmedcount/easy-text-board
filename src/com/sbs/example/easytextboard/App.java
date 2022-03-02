@@ -153,7 +153,78 @@ public class App {
 					System.out.printf("%d / %s\n", article.id, article.title);
 				}
 				
-			} else if(command.startsWith("article detail ")) {
+			} else if (command.startsWith("article search ")) {
+
+				String[] commandBits = command.split(" ");
+
+				String searchKeyword = commandBits[2];
+
+				int page = 1;
+
+				if (commandBits.length >= 4) {
+					page = Integer.parseInt(commandBits[3]);
+				}
+
+				if (page <= 1) {
+					page = 1;
+				}
+
+				System.out.println("== 게시물 검색 ==");
+
+				int searchResultArticlesLen = 0;
+
+				// 검색된 결과의 수를 먼저 구하기
+				for (Article article : articles) {
+					if (article == null) {
+						break;
+					}
+
+					if (article.title.contains(searchKeyword)) {
+						searchResultArticlesLen++;
+					}
+				}
+
+				Article[] searchResultArticles = new Article[searchResultArticlesLen];
+
+				int searchResultArticlesIndex = 0;
+				for (Article article : articles) {
+					if (article == null) {
+						break;
+					}
+
+					if (article.title.contains(searchKeyword)) {
+						searchResultArticles[searchResultArticlesIndex] = article;
+						searchResultArticlesIndex++;
+					}
+				}
+
+				if (searchResultArticles.length == 0) {
+					System.out.println("검색결과가 존재하지 않습니다.");
+					continue;
+				}
+
+				System.out.println("번호 / 제목");
+
+				int itemsInAPage = 10;
+				int startPos = searchResultArticles.length - 1;
+				startPos -= (page - 1) * itemsInAPage;
+				int endPos = startPos - (itemsInAPage - 1);
+
+				if (endPos < 0) {
+					endPos = 0;
+				}
+
+				if (startPos < 0) {
+					System.out.printf("%d페이지는 존재하지 않습니다.\n", page);
+					continue;
+				}
+
+				for (int i = startPos; i >= endPos; i--) {
+					Article article = searchResultArticles[i];
+
+					System.out.printf("%d / %s\n", article.id, article.title);
+				}
+			}  else if(command.startsWith("article detail ")) {
 				int inputedId = Integer.parseInt(command.split(" ")[2]);
 				
 				System.out.println("== 게시물 상세 ==");
