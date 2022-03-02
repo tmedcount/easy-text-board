@@ -7,7 +7,7 @@ public class App {
 	private int lastArticleId;
 	private int articlesSize;
 	
-	public void init() {
+	public App() {
 		articles = new Article[32];
 		lastArticleId = 0;
 		articlesSize = 0;
@@ -15,9 +15,8 @@ public class App {
 		for(int i=0; i<32; i++) {
 			add("제목" + (i+1), "내용" + (i+1));
 		}
-		
 	}
-	
+		
 	private int articlesSize() {
 		return articlesSize;
 	}
