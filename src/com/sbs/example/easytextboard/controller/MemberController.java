@@ -13,6 +13,21 @@ public class MemberController extends Controller {
 	public MemberController() {
 		lastMemberId = 0;
 		members = new ArrayList<>();
+		
+		for(int i=1; i<=3; i++) {
+			join("user" + i, "user" + i, "유저" + i);
+		}
+	}
+	
+	private Member getMemberByLoginId(String loginId) {
+		
+		for(Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				return member;
+			}
+		}
+		
+		return null;
 	}
 	
 	private int join(String loginId, String loginPw, String name) {
@@ -30,6 +45,17 @@ public class MemberController extends Controller {
 		return member.id;
 	}
 	
+	private boolean isExistsLoginId(String loginId) {
+		
+		for(Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	private boolean isJoinAvailableLoginId(String loginId) {
 		
 		for(Member member : members) {
@@ -42,68 +68,146 @@ public class MemberController extends Controller {
 	}
 
 	public void run(Scanner sc, String command) {
-		System.out.println("== 회원가입 ==");
-		
-		String loginId = "";
-		String loginPw;
-		String name;
-		
-		int loginIdMaxCount = 3;
-		int loginIdCount = 0;
-		boolean loginIdIsValid = false;
-		
-		while(true) {
-			if(loginIdCount >= loginIdMaxCount) {
-				System.out.println("회원가입을 취소합니다.");
+		if(command.equals("member login")) {
+			System.out.println("== 로그인 ==");
+			
+			String loginId = "";
+			String loginPw;
+			
+			int loginIdMaxCount = 3;
+			int loginIdCount = 0;
+			boolean loginIdIsValid = false;
+			
+			Member member = null;
+			
+			while(true) {
+				if(loginIdCount >= loginIdMaxCount) {
+					System.out.println("로그인을 취소합니다.");
+					break;
+				}
+				
+				System.out.print("아이디 : ");
+				loginId = sc.nextLine().trim();
+				
+				if(loginId.length() == 0) {
+					loginIdCount++;
+					continue;
+				}
+				
+				member = getMemberByLoginId(loginId);
+				
+				if(member == null) {
+					loginIdCount++;
+					System.out.printf("존재하지 않는 아이디입니다.\n", loginId);
+					continue;
+				}
+				
+				loginIdIsValid = true;
+				
 				break;
 			}
 			
-			System.out.print("아이디 : ");
-			loginId = sc.nextLine().trim();
-			
-			if(loginId.length() == 0) {
-				loginIdCount++;
-				continue;
-			} else if(isJoinAvailableLoginId(loginId) == false) {
-				loginIdCount++;
-				System.out.printf("%s(은)는 이미 사용 중인 아이디 입니다.\n", loginId);
-				continue;
+			if(loginIdIsValid == false) {
+				return;
 			}
 			
-			loginIdIsValid = true;
+			int loginPwMaxCount = 3;
+			int loginPwCount = 0;
+			boolean loginPwIsValid = false;
 			
-			break;
-		}
-		
-		if(loginIdIsValid == false) {
-			return;
-		}
-		
-		while(true) {
-			System.out.print("비밀번호 : ");
-			loginPw = sc.nextLine().trim();
-			
-			if(loginPw.length() == 0) {
-				continue;
+			while(true) {
+				if(loginPwCount >= loginPwMaxCount) {
+					System.out.println("로그인을 취소합니다.");
+					break;
+				}
+				
+				System.out.print("비밀번호 : ");
+				loginPw = sc.nextLine().trim();
+				
+				if(loginPw.length() == 0) {
+					continue;
+				}
+				
+				if(!member.loginPw.equals(loginPw)) {
+					loginPwCount++;
+					System.out.println("비밀번호가 일치하지 않습니다.");
+					continue;
+				}
+				
+				loginPwIsValid = true;
+				
+				break;
 			}
 			
-			break;
-		}
-		
-		while(true) {
-			System.out.print("이름 : ");
-			name = sc.nextLine().trim();
+			if(loginPwIsValid == false) {
+				return;
+			}
+									
+			System.out.printf("로그인 되었습니다. %s님 환영합니다.\n", member.name);
+		} else if(command.equals("member join")) {
+			System.out.println("== 회원가입 ==");
 			
-			if(name.length() == 0) {
-				continue;
+			String loginId = "";
+			String loginPw;
+			String name;
+			
+			int loginIdMaxCount = 3;
+			int loginIdCount = 0;
+			boolean loginIdIsValid = false;
+			
+			while(true) {
+				if(loginIdCount >= loginIdMaxCount) {
+					System.out.println("회원가입을 취소합니다.");
+					break;
+				}
+				
+				System.out.print("아이디 : ");
+				loginId = sc.nextLine().trim();
+				
+				if(loginId.length() == 0) {
+					loginIdCount++;
+					continue;
+				} else if(isJoinAvailableLoginId(loginId) == false) {
+					loginIdCount++;
+					System.out.printf("%s(은)는 이미 사용 중인 아이디 입니다.\n", loginId);
+					continue;
+				}
+				
+				loginIdIsValid = true;
+				
+				break;
 			}
 			
-			break;
+			if(loginIdIsValid == false) {
+				return;
+			}
+			
+			while(true) {
+				System.out.print("비밀번호 : ");
+				loginPw = sc.nextLine().trim();
+				
+				if(loginPw.length() == 0) {
+					continue;
+				}
+				
+				break;
+			}
+			
+			while(true) {
+				System.out.print("이름 : ");
+				name = sc.nextLine().trim();
+				
+				if(name.length() == 0) {
+					continue;
+				}
+				
+				break;
+			}
+			
+			int id = join(loginId, loginPw, name);
+			
+			System.out.printf("%d번 회원이 가입했습니다.\n", id);
 		}
-		
-		int id = join(loginId, loginPw, name);
-		
-		System.out.printf("%d번 회원이 가입했습니다.\n", id);
 		
 	}
 }
