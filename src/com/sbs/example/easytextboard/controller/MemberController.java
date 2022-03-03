@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Member;
+import com.sbs.example.easytextboard.session.Session;
 
 public class MemberController extends Controller {
 	private List<Member> members;
@@ -68,8 +70,16 @@ public class MemberController extends Controller {
 	}
 
 	public void run(Scanner sc, String command) {
-		if(command.equals("member login")) {
+		if(command.equals("member whoami")){
+			System.out.println("로그아웃 상태입니다.");
+			System.out.printf("당신의 로그인 아이디는 %s입니다.");
+		} else if(command.equals("member login")) {
 			System.out.println("== 로그인 ==");
+			
+			if(Container.session.isLogined()) {
+				System.out.println("이미 로그인 되었습니다");
+				return;
+			}
 			
 			String loginId = "";
 			String loginPw;
@@ -144,6 +154,8 @@ public class MemberController extends Controller {
 			}
 									
 			System.out.printf("로그인 되었습니다. %s님 환영합니다.\n", member.name);
+			
+			Container.session.loginedMemberId = member.id;
 		} else if(command.equals("member join")) {
 			System.out.println("== 회원가입 ==");
 			
