@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import com.sbs.example.easytextboard.controller.MemberController;
 import com.sbs.example.easytextboard.dto.Article;
-import com.sbs.example.easytextboard.dto.Member;
 
 public class App {
 	private List<Article> articles;
