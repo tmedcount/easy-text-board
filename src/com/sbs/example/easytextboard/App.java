@@ -2,34 +2,29 @@ package com.sbs.example.easytextboard;
 
 import java.util.Scanner;
 
-import com.sbs.example.easytextboard.controller.ArticleController;
+import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.controller.MemberController;
 
 public class App {
-	//가장 상위 층
-	public void run() {		
-		Scanner sc = new Scanner(System.in);
+	public void run() {
+		Scanner sc = Container.scanner;
 		
 		MemberController memberController = new MemberController();
-		ArticleController articleController = new ArticleController();
-				
-		while(true) {		
+		
+		while(true) {
 			
 			System.out.print("명령어) ");
-			String command = sc.nextLine();
+			String cmd = sc.nextLine();
 			
-			if(command.equals("system exit")) {
+			if(cmd.equals("system exit")) {
 				System.out.print("== 프로그램 종료 ==");
 				break;
-			} else if(command.startsWith("member ")) {
-				memberController.run(sc, command);
-			} else if(command.startsWith("article ")) {
-				articleController.run(sc, command);
-			} else {
-				System.out.println("존재하지 않는 명령어입니다.");
+			} else if(cmd.startsWith("member ")) {
+				memberController.doCommand(cmd);
 			}
 		}
 		
 		sc.close();
 	}
+
 }
