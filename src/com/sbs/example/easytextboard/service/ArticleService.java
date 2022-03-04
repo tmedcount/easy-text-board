@@ -1,89 +1,51 @@
 package com.sbs.example.easytextboard.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.sbs.example.easytextboard.container.Container;
+import com.sbs.example.easytextboard.dao.ArticleDao;
 import com.sbs.example.easytextboard.dto.Article;
 
 public class ArticleService {
-	private List<Article> articles;
-	private int lastArticleId;
+	private ArticleDao articleDao;
 	
-	public List<Article> getArticles() {
-		return articles;
+	public ArticleService() {
+		articleDao = Container.articleDao;
 	}
 
-	public ArticleService() {
-		lastArticleId = 0;
-		articles = new ArrayList<>();
-		
-		for(int i=0; i<32; i++) {
-			add(i%2 == 0 ? 1: 2,"제목" + (i+1), "내용" + (i+1));
-		}
-	}
-	
-	//게시물 관련 기능 시작
-	public Article getArticle(int id) {		
-		int index = getIndexById(id);
-		
-		if(index == -1) {
-			return null;
-		}
-		
-		return articles.get(index);
-	}
-	
-	private int getIndexById(int id) {
-		for(int i=0; i<articles.size(); i++) {
-			
-			if(articles.get(i).id == id) {
-				return i;
-			}
-		}
-		
-		return -1;
-	}
-	
 	public int add(int memberId, String title, String body) {
-		Article article = new Article();
-		
-		article.id = lastArticleId + 1;
-		article.memberId = memberId;
-		article.title = title;
-		article.body = body;
-				
-		articles.add(article);
-		
-		lastArticleId = article.id;
-		
-		return article.id;
+		return articleDao.add(memberId, title, body);
 	}
-	
-	public void modify(int inputedId, String title, String body) {
-		Article article = getArticle(inputedId);
-		
-		article.title = title;
-		article.body = body;
-	}
-	
-	public void remove(int id) {
-		int index = getIndexById(id);
-		
-		if(index == -1) {
-			return;
-		}
-		
-		articles.remove(index);
-	}
-	//게시물 관련 기능 끝
 
 	public int getArticlesSize() {
-
-		return articles.size();
+		return articleDao.getArticlesSize();
 	}
 
 	public Article getArticleByIndex(int i) {
-
-		return articles.get(i);
+		return articleDao.getArticleByIndex(i);
 	}
+
+	public List<Article> getArticles() {
+		return articleDao.getArticles();
+	}
+
+	public Article getArticle(int id) {
+		return articleDao.getArticle(id);
+	}
+
+	public void modify(int id, String title, String body) {
+		articleDao.modify(id, title, body);
+	}
+
+	public void remove(int id) {
+		articleDao.remove(id);		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
