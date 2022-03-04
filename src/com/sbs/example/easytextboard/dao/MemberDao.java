@@ -13,6 +13,10 @@ public class MemberDao {
 	public MemberDao() {
 		members = new ArrayList<>();
 		lastId = 0;
+		
+		for(int i=1; i<=3; i++) {
+			join("user" + i, "user" + i, "유저" + i);
+		}
 	}
 
 	public int join(String loginId, String loginPw, String name) {
@@ -33,6 +37,16 @@ public class MemberDao {
 	public Member getMemberByLoginId(String loginId) {
 		for(Member member : members) {
 			if(member.loginId.equals(loginId)) {
+				return member;
+			}
+		}
+		
+		return null;
+	}
+
+	public Member getMemberById(int id) {
+		for(Member member : members) {
+			if(member.id == id) {
 				return member;
 			}
 		}
