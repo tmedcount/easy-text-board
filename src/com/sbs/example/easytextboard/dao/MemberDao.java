@@ -30,4 +30,14 @@ public class MemberDao {
 		return member.id;
 	}
 
+	public Member getMemberByLoginId(String loginId) {
+		for(Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				return member;
+			}
+		}
+		
+		return null;
+	}
+
 }

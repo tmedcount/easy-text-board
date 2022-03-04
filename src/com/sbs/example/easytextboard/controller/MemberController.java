@@ -30,6 +30,13 @@ public class MemberController {
 		System.out.print("아이디 : ");
 		loginId = sc.nextLine();
 		
+		boolean isJoinableLoginId = memberService.isJoinableLoginId(loginId);
+		
+		if(isJoinableLoginId == false) {
+			System.out.printf("%s(은)는 이미 사용 중인 아이디 입니다.\n", loginId);
+			return;
+		}
+		
 		System.out.print("비밀번호 : ");
 		loginPw = sc.nextLine();
 		
