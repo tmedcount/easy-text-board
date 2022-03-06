@@ -6,7 +6,7 @@ import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Member;
 import com.sbs.example.easytextboard.service.MemberService;
 
-public class MemberController {
+public class MemberController extends Controller {
 	private MemberService memberService;
 	
 	public MemberController() {
@@ -48,7 +48,7 @@ public class MemberController {
 		Member loginedMember = memberService.getMemberById(loginedMemberId);
 		
 		System.out.println("== 로그인 된 사용자 정보 ==");
-		System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+		System.out.printf("아이디 : %s\n", loginedMember.loginId);
 		System.out.printf("이름 : %s\n", loginedMember.name);
 	}
 
