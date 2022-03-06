@@ -44,4 +44,8 @@ public class ArticleDao {
 		return article.id;
 	}
 
+	public List<Article> getArticles() {
+		return articles;
+	}
+
 }
