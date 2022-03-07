@@ -20,24 +20,8 @@ public class ArticleDao {
 		
 		boards = new ArrayList<>();
 		lastBoardId = 0;
-		
-		makeTestData();
 	}
-
-	private void makeTestData() {
-		int boardId = makeBoard("공지사항");
-		
-		Container.session.selectedBoardId = boardId;
-		
-		for(int i=1; i<=5; i++) {
-			write(boardId, 1, "제목" + i, "내용" + 1);
-		}
-		
-		for(int i=6; i<=10; i++) {
-			write(boardId, 2, "제목" + i, "내용" + 1);
-		}		
-	}
-
+	
 	public int write(int boardId, int memberId, String title, String body) {
 		Article article = new Article();
 		

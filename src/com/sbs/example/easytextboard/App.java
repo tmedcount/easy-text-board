@@ -6,16 +6,37 @@ import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.controller.ArticleController;
 import com.sbs.example.easytextboard.controller.Controller;
 import com.sbs.example.easytextboard.controller.MemberController;
+import com.sbs.example.easytextboard.service.ArticleService;
+import com.sbs.example.easytextboard.service.MemberService;
 
 public class App {
 	MemberController memberController;
 	ArticleController articleController;
 	
 	public App() {
-		memberController = new MemberController();
-		articleController = new ArticleController();
+		memberController = Container.memberController;
+		articleController = Container.articleController;
+		
+		makeTestData();
 	}
 	
+	private void makeTestData() {
+		MemberService memberService = Container.memberService;
+		int fristMemberId = memberService.join("user1", "user1", "유저1");
+		int secondMemberId = memberService.join("user2", "user2", "유저2");
+		
+		ArticleService articleService = Container.articleService;
+		int noticeBoardId = articleService.makeBoard("공지사항");
+		
+		for(int i=1; i<=5; i++) {
+			articleService.write(noticeBoardId, fristMemberId, "제목" + i, "내용" + i);
+		}
+		
+		for(int i=1; i<=5; i++) {
+			articleService.write(noticeBoardId, secondMemberId, "제목" + i, "내용" + i);
+		}
+	}
+
 	public void run() {
 		Scanner sc = Container.scanner;
 		
@@ -31,6 +52,12 @@ public class App {
 			}
 			
 			Controller controller = getControllerByCmd(cmd);
+			
+			if(controller == null) {
+				System.out.println("명령어를 잘못 입력했습니다. ");
+				continue;
+			}
+			
 			controller.doCommand(cmd);
 		}
 		
