@@ -36,9 +36,9 @@ public class ArticleController extends Controller {
 		System.out.print("게시판 이름 : ");
 		name = Container.scanner.nextLine();
 		
-		int id = articleService.makeBoard(name);
+		int boardId = articleService.makeBoard(name);
 		
-		System.out.printf("공지사항(%d)번 게시판이 생성되었습니다.\n", id);
+		System.out.printf("공지사항(%d)번 게시판이 생성되었습니다.\n", boardId);
 	}
 
 	private void list(String cmd) {
@@ -46,11 +46,11 @@ public class ArticleController extends Controller {
 		
 		List<Article> articles = articleService.getArticles();
 		
-		System.out.println("번호 / 작성자 / 제목");
+		System.out.println("게시판 번호 / 게시글 번호 / 작성자 / 제목");
 		for(Article article : articles) {
 			Member member = memberService.getMemberById(article.memberId);
 			
-			System.out.printf("%d / %s / %s\n", article.id, member.name, article.title);
+			System.out.printf("%d / %d / %s / %s\n", article.boardId, article.id, member.name, article.title);
 		}
 	}
 
@@ -63,7 +63,6 @@ public class ArticleController extends Controller {
 		}
 		
 		String title;
-		int loginedMembeId = Container.session.loginedMemberId;
 		String body;
 		
 		System.out.print("제목 : ");
@@ -71,7 +70,10 @@ public class ArticleController extends Controller {
 		System.out.print("내용 : ");
 		body = Container.scanner.nextLine();
 		
-		int id = articleService.write(loginedMembeId, title, body);
+		int boardId = Container.session.selectedBoardId;
+		int memberId = Container.session.loginedMemberId;
+		
+		int id = articleService.write(boardId, memberId, title, body);
 		
 		System.out.printf("%d번 글이 생성되었습니다.\n", id);
 	}

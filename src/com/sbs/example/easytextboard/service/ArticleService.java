@@ -14,8 +14,8 @@ public class ArticleService {
 		articleDao = Container.articleDao;
 	}
 
-	public int write(int loginedMembeId, String title, String body) {
-		return articleDao.write(loginedMembeId, title, body);
+	public int write(int boardId, int memberId, String title, String body) {
+		return articleDao.write(boardId, memberId, title, body);
 	}
 
 	public List<Article> getArticles() {
