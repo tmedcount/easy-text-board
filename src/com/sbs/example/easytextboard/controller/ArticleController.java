@@ -19,11 +19,26 @@ public class ArticleController extends Controller {
 	}
 
 	public void doCommand(String cmd) {
-		if(cmd.equals("article list")) {
+		if(cmd.equals("article makeBoard")) {
+			makeBoard(cmd);
+		} else if(cmd.equals("article list")) {
 			list(cmd);
 		} else if(cmd.equals("article add")) {
 			add(cmd);
 		}
+	}
+
+	private void makeBoard(String cmd) {
+		System.out.println("== 게시판 생성 ==");
+		
+		String name;
+		
+		System.out.print("게시판 이름 : ");
+		name = Container.scanner.nextLine();
+		
+		int id = articleService.makeBoard(name);
+		
+		System.out.printf("공지사항(%d)번 게시판이 생성되었습니다.\n", id);
 	}
 
 	private void list(String cmd) {
