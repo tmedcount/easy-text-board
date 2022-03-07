@@ -41,7 +41,7 @@ public class ArticleController extends Controller {
 			return;
 		}
 		
-		System.out.printf("%s게시판으로 변경합니다.\n", board.name);
+		System.out.printf("%s 게시판으로 변경합니다.\n", board.name);
 		
 		Container.session.selectedBoardId = boardId;
 	}
@@ -56,19 +56,21 @@ public class ArticleController extends Controller {
 		
 		int boardId = articleService.makeBoard(name);
 		
-		System.out.printf("%s(%d번)ㄴ게시판이 생성되었습니다.\n", name, boardId);
+		System.out.printf("%s(%d번) 게시판이 생성되었습니다.\n", name, boardId);
 	}
 
 	private void list(String cmd) {
-		System.out.println("== 게시물 목록 ==");
+		int boardId = Container.session.selectedBoardId;
+		Board board = articleService.getBoardById(boardId);
+		List<Article> articles = articleService.getArticles(boardId);
 		
-		List<Article> articles = articleService.getArticles();
+		System.out.printf("== %s 게시판 목록 ==\n", board.name);
 		
-		System.out.println("게시판 번호 / 게시글 번호 / 작성자 / 제목");
+		System.out.println("번호 / 작성자 / 제목");
 		for(Article article : articles) {
 			Member member = memberService.getMemberById(article.memberId);
 			
-			System.out.printf("%d / %d / %s / %s\n", article.boardId, article.id, member.name, article.title);
+			System.out.printf("%d / %s / %s\n", article.id, member.name, article.title);
 		}
 	}
 

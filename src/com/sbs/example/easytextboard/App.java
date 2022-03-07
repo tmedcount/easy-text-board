@@ -35,12 +35,13 @@ public class App {
 		
 		ArticleService articleService = Container.articleService;
 		int noticeBoardId = articleService.makeBoard("공지사항");
+		int freeBoardId = articleService.makeBoard("자유");
 		
 		for(int i=1; i<=5; i++) {
 			articleService.write(noticeBoardId, fristMemberId, "제목" + i, "내용" + i);
 		}
 		
-		for(int i=1; i<=5; i++) {
+		for(int i=6; i<=10; i++) {
 			articleService.write(noticeBoardId, secondMemberId, "제목" + i, "내용" + i);
 		}
 	}

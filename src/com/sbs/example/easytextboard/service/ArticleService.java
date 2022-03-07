@@ -19,8 +19,8 @@ public class ArticleService {
 		return articleDao.write(boardId, memberId, title, body);
 	}
 
-	public List<Article> getArticles() {
-		return articleDao.getArticles();
+	public List<Article> getArticles(int boardId) {
+		return articleDao.getArticles(boardId);
 	}
 
 	public int makeBoard(String name) {
@@ -34,7 +34,7 @@ public class ArticleService {
 	public int getFirstBoardId() {
 		List<Board> boards = articleDao.getBoards();
 		
-		return boards.get(0).id;
+		return boards.get(1).id;
 	}
 
 }

@@ -39,8 +39,16 @@ public class ArticleDao {
 		return article.id;
 	}
 
-	public List<Article> getArticles() {
-		return articles;
+	public List<Article> getArticles(int boardId) {
+		List<Article> newArticles = new ArrayList<>();
+		
+		for(Article article : articles) {
+			if(article.boardId == boardId) {
+				newArticles.add(article);
+			}
+		}
+				
+		return newArticles;	
 	}
 
 	public int makeBoard(String name) {
