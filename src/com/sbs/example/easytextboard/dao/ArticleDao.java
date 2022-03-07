@@ -3,7 +3,6 @@ package com.sbs.example.easytextboard.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Article;
 import com.sbs.example.easytextboard.dto.Board;
 
@@ -55,6 +54,20 @@ public class ArticleDao {
 		lastBoardId = board.id;
 		
 		return board.id;
+	}
+
+	public Board getBoardById(int boardId) {
+		for(Board board : boards) {
+			if(board.id == boardId) {
+				return board;
+			}
+		}
+		
+		return null;
+	}
+
+	public List<Board> getBoards() {
+		return boards;
 	}
 
 }

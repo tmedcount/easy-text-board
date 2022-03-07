@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Article;
+import com.sbs.example.easytextboard.dto.Board;
 import com.sbs.example.easytextboard.dto.Member;
 import com.sbs.example.easytextboard.service.ArticleService;
 import com.sbs.example.easytextboard.service.MemberService;
@@ -19,13 +20,30 @@ public class ArticleController extends Controller {
 	}
 
 	public void doCommand(String cmd) {
-		if(cmd.equals("article makeBoard")) {
+		if(cmd.startsWith("article selectBoard ")) {
+			selectBoard(cmd);
+		} if(cmd.equals("article makeBoard")) {
 			makeBoard(cmd);
 		} else if(cmd.equals("article list")) {
 			list(cmd);
 		} else if(cmd.equals("article add")) {
 			add(cmd);
 		}
+	}
+
+	private void selectBoard(String cmd) {
+		int boardId = Integer.parseInt(cmd.split(" ")[2]);
+		
+		Board board = articleService.getBoardById(boardId);
+		
+		if(board == null) {
+			System.out.println("존재하지 않는 게시판 번호입니다.");
+			return;
+		}
+		
+		System.out.printf("%s게시판으로 변경합니다.\n", board.name);
+		
+		Container.session.selectedBoardId = boardId;
 	}
 
 	private void makeBoard(String cmd) {
@@ -38,7 +56,7 @@ public class ArticleController extends Controller {
 		
 		int boardId = articleService.makeBoard(name);
 		
-		System.out.printf("공지사항(%d)번 게시판이 생성되었습니다.\n", boardId);
+		System.out.printf("%s(%d번)ㄴ게시판이 생성되었습니다.\n", name, boardId);
 	}
 
 	private void list(String cmd) {
