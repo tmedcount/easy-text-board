@@ -44,6 +44,10 @@ public class App {
 		for(int i=6; i<=10; i++) {
 			articleService.write(noticeBoardId, secondMemberId, "제목" + i, "내용" + i);
 		}
+		
+		for(int i=11; i<=15; i++) {
+			articleService.write(freeBoardId, secondMemberId, "제목" + i, "내용" + i);
+		}
 	}
 
 	public void run() {

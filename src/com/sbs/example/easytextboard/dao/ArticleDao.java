@@ -1,6 +1,7 @@
 package com.sbs.example.easytextboard.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.sbs.example.easytextboard.dto.Article;
@@ -47,6 +48,8 @@ public class ArticleDao {
 				newArticles.add(article);
 			}
 		}
+		
+		Collections.reverse(newArticles);
 				
 		return newArticles;	
 	}
